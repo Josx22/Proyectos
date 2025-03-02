@@ -1,4 +1,0 @@
-# ProyectosJK
-
-Los siguientes proyectos fueron realizados en mi intancia en 1° año de Bachillerato por lo cual no son tan complejos.
-
