@@ -1,0 +1,134 @@
+Nathgmr:{SHA}Pr9zhQkKqJmD+wbx2X6DBEsPRnw=
+
+CREATE DATABASE EcasInternacionalBusiness;
+
+
+USE EcasInternacionalBusiness;
+
+CREATE TABLE cliente (
+    id_usuario INT AUTO_INCREMENT PRIMARY KEY,  
+    usuario VARCHAR(255) NOT NULL,              
+    email VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+	
+
+CREATE TABLE form_data (
+    id INT AUTO_INCREMENT PRIMARY KEY,          
+    nombre VARCHAR(255) NOT NULL,
+    correo_electronico VARCHAR(255) NOT NULL,
+    numero_telefono VARCHAR(20),
+    servicio_seleccionado VARCHAR(255) NOT NULL,
+    informacion VARCHAR(300),                  R
+    fecha_envio TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+ALTER TABLE form_data
+ADD COLUMN estado ENUM('Pendiente', 'Revisado') NOT NULL DEFAULT 'Pendiente',
+ADD COLUMN visto TINYINT(1) NOT NULL DEFAULT 0;
+   
+
+ALTER TABLE cliente ADD COLUMN rol ENUM('admin', 'cliente') DEFAULT 'cliente';
+
+
+NSERT INTO cliente (usuario, email, password, rol) 
+VALUES ('EcasBusiness', 'ecasinternacional@hotmail.com', 'EcasInternacional2025', 'admin');
+
+
+
+iNSERT INTO cliente (usuario, email, password, rol) VALUES ('EcasBusiness', 'ecasinternacional@hotmail.com', 'EcasInternacional2025','admin');
+  
+
+?>
+<?php
+echo password_hash('EcasInternacional2025', PASSWORD_BCRYPT);
+?>
+
+
+
+
+
+
+
+
+
+
+
+<?php
+// Configuración de conexión segura
+define('DB_SERVER', 'localhost');
+define('DB_USERNAME', 'root');
+define('DB_PASSWORD', '');
+define('DB_DATABASE', 'ecasinternacionalbusiness'); // Nombre correcto de la base de datos
+
+// Configurar para lanzar excepciones
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+
+try {
+    // Conexión a la base de datos
+    $conn = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
+    
+    // Verificar si la conexión es exitosa
+    if ($conn->connect_error) {
+        throw new Exception("Error de conexión: " . $conn->connect_error);
+    }
+
+    // Establecer la codificación de caracteres
+    $conn->set_charset("utf8mb4");
+
+    echo "Conexión exitosa a la base de datos.";
+} catch (Exception $e) {
+    // Mostrar el error
+    echo "Ocurrió un error: " . $e->getMessage();
+}
+
+
+$conn->set_charset("utf8mb4");
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Asegúrate de que las claves estén definidas
+    if (isset($_POST['usuario'], $_POST['email'], $_POST['password'])) {
+        $usuario = $_POST['usuario'];
+        $email = $_POST['email'];
+        $password = $_POST[' password'];
+
+        // Verificar si el nombre de usuario o el correo ya existen en la base de datos
+        $query = "SELECT id_usuario FROM cliente WHERE usuario = ? OR email = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("ss", $usuario, $email); // 'ss' indica que son dos cadenas
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            // Si el usuario o correo ya existe
+            echo "El nombre de usuario o el correo electrónico ya están registrados.";
+        } else {
+            // Si no existe, insertar los nuevos datos en la base de datos
+            $hashed_password = password_hash($password, PASSWORD_BCRYPT); // Cifra la contraseña
+            
+            $insert_query = "INSERT INTO cliente (usuario, email, password) VALUES (?, ?, ?)";
+            $stmt = $conn->prepare($insert_query);
+            $stmt->bind_param("sss", $usuario, $email, $hashed_password);
+            if ($stmt->execute()) {
+                echo "Registro exitoso. Por favor, inicia sesión.";
+                // Redirigir a la página de inicio de sesión, si es necesario
+                header("Location: login.php"); // Cambia esto según tu estructura
+                exit();
+            } else {
+                echo "Error al registrar el usuario: " . $stmt->error;
+            }
+        }
+
+        // Cerrar el statement
+        $stmt->close();
+    } else {
+        echo "Por favor, complete todos los campos.";
+    }
+}
+
+// Cerrar la conexión
+$conn->close();
+
+?>
+
