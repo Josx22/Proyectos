@@ -1,0 +1,160 @@
+
+CREATE TABLE Servicios (
+    Id_Servicio INT PRIMARY KEY,
+    Precio DECIMAL (6,2),
+    Direccion VARCHAR(255),
+    Fecha_Inicio DATE,
+    Fecha_Finalizacion DATE,
+    Fecha_Solicitud DATE,
+    Promocion FLOAT 
+
+);
+
+CREATE TABLE Producto (
+    Id_Producto INT PRIMARY KEY,
+    Nombre VARCHAR(200),
+    Precio VARCHAR (6),
+    Promocion VARCHAR (3),
+    Fecha_Produccion DATE,
+    Fecha_Vencimiento DATE,
+    Cantidad VARCHAR(6),
+    foto VARCHAR(200)
+    
+);
+
+CREATE TABLE Cliente (
+    Id_Usuario INT PRIMARY KEY,
+    Nombre VARCHAR (24),
+    Apellido VARCHAR (24),
+    Correo VARCHAR(50),
+    Numero_Telefono INT,
+    Tipo_Usuario VARCHAR (15),
+contraseña VARCHAR(150)
+);
+
+CREATE TABLE Gerente (
+    Id_Usuario INT PRIMARY KEY,
+    Nombre VARCHAR (24),
+    Apellido VARCHAR (24),
+    Correo VARCHAR(50),
+    Numero_Telefono INT,
+    Tipo_Usuario VARCHAR (15),
+    contraseña VARCHAR(150)
+);
+
+CREATE TABLE Tecnico (
+    Id_Usuario INT PRIMARY KEY,
+    Nombre VARCHAR (24),
+    Apellido VARCHAR (24),
+    Correo VARCHAR(50),
+    Numero_Telefono INT,
+    Tipo_Usuario VARCHAR (15),
+	Activo BOOLEAN,
+contraseña VARCHAR(150)
+);
+
+CREATE TABLE Preventivo (
+    Id_Preventivo INT PRIMARY KEY,
+    Id_Servicio INT,
+    Cambio_Aire BOOLEAN,
+    Cambio_Aceite BOOLEAN,
+    Niveles_Fluidos BOOLEAN,
+    Bateria BOOLEAN,
+    Cambio_Frenos BOOLEAN,
+    FOREIGN KEY (Id_Servicio) REFERENCES Servicios(Id_Servicio)
+);
+
+CREATE TABLE Correctivo (
+    Id_Correctivo INT PRIMARY KEY,
+    Id_Servicio INT,
+    Sistema_Frenos BOOLEAN,
+    Bomba_Agua BOOLEAN,
+    Sistema_Electrico BOOLEAN,
+    Sistema_Direccion BOOLEAN,
+    Sistema_Transmision BOOLEAN,
+    FOREIGN KEY (Id_Servicio) REFERENCES Servicios(Id_Servicio)
+);
+
+INSERT INTO Servicios (Id_Servicio, Precio, Direccion, Fecha_Inicio, Fecha_Finalizacion, Fecha_Solicitud, Promocion) VALUES
+(1, 2500.00, '123 Main St', '2024-08-01', '2024-08-03', '2024-07-28', 0.1),
+(2, 3000.00, '456 Elm St', '2024-08-02', '2024-08-04', '2024-07-29', 0.05),
+(3, 4500.00, '789 Maple Ave', '2024-08-03', '2024-08-05', '2024-07-30', 0.2),
+(4, 5000.00, '101 Oak St', '2024-08-04', '2024-08-06', '2024-07-31', 0.15),
+(5, 3500.00, '202 Pine St', '2024-08-05', '2024-08-07', '2024-08-01', 0.1),
+(6, 4000.00, '303 Birch St', '2024-08-06', '2024-08-08', '2024-08-02', 0.1),
+(7, 2800.00, '404 Cedar St', '2024-08-07', '2024-08-09', '2024-08-03', 0.05),
+(8, 2600.00, '505 Ash St', '2024-08-08', '2024-08-10', '2024-08-04', 0.1),
+(9, 3200.00, '606 Fir St', '2024-08-09', '2024-08-11', '2024-08-05', 0.1),
+(10, 2900.00, '707 Spruce St', '2024-08-10', '2024-08-12', '2024-08-06', 0.05);
+
+INSERT INTO Producto (Id_Producto,Nombre , Precio, Promocion, Fecha_Produccion, Fecha_Vencimiento, Cantidad, foto) VALUES
+(10000,'Llantas', '100.00', '0.1', '2024-07-01', '2025-07-01','200',''),
+(10001,'Motor','150.00', '0.15', '2024-07-02', '2025-07-02','300',''),
+(10002,'Gato', '120.00', '0.1', '2024-07-03', '2025-07-03','400',''),
+(10003,'Aceite', '130.00', '0.2', '2024-07-04', '2025-07-04','300',''),
+(10004,'Parabrisas', '110.00', '0.1', '2024-07-05', '2025-07-05','250',''),
+(10005,'Asientos', '160.00', '0.05', '2024-07-06', '2025-07-06','210',''),
+(10006,'Alfombrilla', '140.00', '0.1', '2024-07-07', '2025-07-07','150',''),
+(10007,'Bateria', '170.00', '0.2', '2024-07-08', '2025-07-08','120',''),
+(10008,'Palancas', '180.00', '0.1', '2024-07-09', '2025-07-09','300',''),
+(10009,'Tapacubos', '200.00', '0.15', '2024-07-10', '2025-07-10','200','');
+
+INSERT INTO Cliente (Id_Usuario, Nombre, Apellido, Correo, Numero_Telefono, Tipo_Usuario) VALUES
+(1983, 'Eric', 'Avalos', 'avaluzzg@gmail.com', 72217938, 'Cliente'),
+(1984, 'Rodrigo', 'Alizama', 'marial@gmail.com', 72217938, 'Cliente'),
+(1985, 'Juan', 'Perez', 'juanp@gmail.com', 72117938, 'Cliente'),
+(1986, 'Ana', 'Martinez', 'anam@gmail.com', 73217938, 'Cliente'),
+(1987, 'Luis', 'Garcia', 'luisg@hotmail.com', 72217939, 'Cliente'),
+(1988, 'Lucia', 'Hernandez', 'luciah@gmail.com', 72217338, 'Cliente'),
+(1989, 'Pedro', 'Diaz', 'pedrod@hotmail.com', 72217931, 'Cliente'),
+(1990, 'Laura', 'Morales', 'lauram@gmail.com', 72214938, 'Cliente'),
+(1991, 'Jorge', 'Ramirez', 'jorger@hotmail.com', 74217938, 'Cliente'),
+(1992, 'Sofia', 'Alvarez', 'sofiaal@gmail.com', 72917938, 'Cliente');
+
+INSERT INTO Gerente (Id_Usuario, Nombre, Apellido, Correo, Numero_Telefono, Tipo_Usuario, Contraseña) VALUES
+(101, 'Rodrigo', 'Lemus', 'rodrigud@hotmail.com', 71329391, 'Gerente',1),
+(202, 'Rodrigo', 'Monge', 'elenao@gmail.com', 71829021, 'Gerente',2),
+(303, 'Miguel', 'Rojas', 'miguelr@hotmail.com', 71829141, 'Gerente',3),
+(404, 'Teresa', 'Vega', 'teresav@gmail.com', 71829390, 'Gerente',4),
+(505, 'David', 'Salas', 'davids@hotmail.com', 71829396, 'Gerente',5),
+(606, 'Paula', 'Cruz', 'paulac@hotmail.com', 71829394, 'Gerente',6),
+(707, 'Alejandro', 'Nieto', 'alejandron@hotmail.com', 71819391, 'Gerente',7),
+(808, 'Veronica', 'Lopez', 'veronical@gmail.com', 71829291, 'Gerente',8),
+(909, 'Rafael', 'Dominguez', 'rafaeld@gmail.com', 71429391, 'Gerente',9),
+(100, 'Isabel', 'Ruiz', 'isabelr@gmail.com', 71839391, 'Gerente',10);
+
+INSERT INTO Tecnico (Id_Usuario, Nombre, Apellido, Correo, Numero_Telefono, Tipo_Usuario, Activo) VALUES
+(987, 'Alejandro', 'Ramirez', 'chepoe123@hotmail.com', 72934501, 'Tecnico', TRUE),
+(986, 'Monica', 'Silva', 'monicas@gmail.com', 72934521, 'Tecnico', TRUE),
+(985, 'Santiago', 'Gomez', 'santiagog@gmail.com', 72934561, 'Tecnico', TRUE),
+(984, 'Adriana', 'Mendez', 'adrianam@hotmail.com', 72034571, 'Tecnico', TRUE),
+(983, 'Ricardo', 'Torres', 'ricardot@gmail.com', 72934501, 'Tecnico', FALSE),
+(982, 'Fernando', 'Cruz', 'fernandoc@gmail.com', 73934511, 'Tecnico', FALSE),
+(981, 'Andrea', 'Lopez', 'andreal@gmail.com', 72334501, 'Tecnico', FALSE),
+(980, 'Miguel', 'Martinez', 'miguelm@gmail.com', 72134501, 'Tecnico', FALSE),
+(979, 'Luis', 'Ramirez', 'luisr@gmail.com', 72934401, 'Tecnico', FALSE),
+(978, 'Gabriela', 'Hernandez', 'gabrielah@gmail.com', 5553234576, 'Tecnico', FALSE);
+
+INSERT INTO Preventivo (Id_Preventivo, Id_Servicio, Cambio_Aire, Cambio_Aceite, Niveles_Fluidos, Bateria, Cambio_Frenos) VALUES
+(10000, 1, TRUE, TRUE, TRUE, FALSE, FALSE),
+(1001, 2, TRUE, TRUE, TRUE, TRUE, FALSE),
+(1002, 3, FALSE, TRUE, TRUE, TRUE, TRUE),
+(1003, 4, TRUE, FALSE, TRUE, TRUE, FALSE),
+(1004, 5, TRUE, TRUE, FALSE, TRUE, TRUE),
+(1005, 6, FALSE, TRUE, TRUE, FALSE, TRUE),
+(1006, 7, TRUE, FALSE, TRUE, TRUE, TRUE),
+(1007, 8, TRUE, TRUE, FALSE, TRUE, FALSE),
+(1008, 9, FALSE, TRUE, TRUE, TRUE, TRUE),
+(1009, 10, TRUE, TRUE, TRUE, FALSE, FALSE);
+
+INSERT INTO Correctivo (Id_Correctivo, Id_Servicio, Sistema_Frenos, Bomba_Agua, Sistema_Electrico, Sistema_Direccion, Sistema_Transmision) VALUES
+(2000, 1, TRUE, FALSE, TRUE, TRUE, FALSE),
+(2001, 2, TRUE, TRUE, FALSE, TRUE, TRUE),
+(2003, 3, FALSE, TRUE, TRUE, FALSE, TRUE),
+(2004, 4, TRUE, FALSE, TRUE, TRUE, TRUE),
+(2005, 5, FALSE, TRUE, TRUE, FALSE, FALSE),
+(2006, 6, TRUE, TRUE, FALSE, TRUE, TRUE),
+(2007, 7, TRUE, TRUE, TRUE, FALSE, TRUE),
+(2008, 8, FALSE, TRUE, TRUE, TRUE, FALSE),
+(2009, 9, TRUE, FALSE, TRUE, TRUE, TRUE),
+(2010, 10, TRUE, TRUE, FALSE, TRUE, FALSE);
